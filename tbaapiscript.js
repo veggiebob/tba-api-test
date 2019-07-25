@@ -9,19 +9,27 @@ function accessAPI(){
     if(ev.length>0) {
         url = url_root+ev;
     }
+    try {
     xmlHttp.open("GET", url, false);
     xmlHttp.setRequestHeader("X-TBA-Auth-Key", key);
-    xmlHttp.send(null);
+        xmlHttp.send(null);
+    } catch (e) { return undefined; }
     var data = xmlHttp.responseText;
     return data;
 }
 document.getElementById("update").onclick = function() {
     var data = accessAPI();
+    if(data===undefined) {
+        dispStr = "This field does not exist";
+    } else 
     data = JSON.parse(data);
     console.log(data);
     var dispStr = "";
     for(var i in data) {
         dispStr += "<span class=\"data-key\">" + i + "</span>: <span class=\"data-value\">" + data[i] + "</span><br>";
+    }
+    if(dispStr.length===0) {
+        dispStr = "This field exists but is empty";
     }
     document.getElementById("data").innerHTML = dispStr;
     var prop = document.getElementById("custom_property").value;
