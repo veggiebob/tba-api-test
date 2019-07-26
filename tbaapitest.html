@@ -11,6 +11,7 @@
             background-color:darkslateblue;
             padding: 10px;
             border-radius:10px;
+            word-wrap:break-word;
         }
         .content {
             color: lightgray;
@@ -38,10 +39,16 @@
         .data-value {
             color: #6d6;
         }
+        #api_link {
+            font-size:20px;
+            font-family:monospace;
+            color:magenta;
+            text-decoration:none;
+        }
     </style>
     <body>
         <div class="wrapper">
-            <a href="https://www.thebluealliance.com/apidocs/v3">API docs</a>
+            <a href="https://www.thebluealliance.com/apidocs/v3" id="api_link" target="blank">>> API docs <<</a><br>
             <span class="content" style="font-family: monospace">https://thebluealliance.com/api/v3/</span>
             <input type="text" class="content input-boxes" id="custom_url">
             <br>
