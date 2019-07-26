@@ -75,7 +75,8 @@ var displayVar = function(input, str, indents){
     } else {
         throw({message:"An Error Occurred: could not read\n" + inp});
     }
-    return str;
+    //return str.replace(/\n/g, "<br>").replace(/ /g, " ").replace(/"/g, '');
+    return str.replace(/\n/g, "<br>").replace(/ /g, " ");
 };
 var key = "sx6QV9xPH8OQRY11K4luiXbAal6ewdXTQBjiPW3BkivVRRYDBiEyD5K1U5jbq1hH"; 
 var url_root = "https://www.thebluealliance.com/api/v3/";
@@ -109,6 +110,14 @@ document.getElementById("update").onclick = function() {
             try {
                 output = displayVar(output);
             } catch (e) {}
+            if(output!==null) {
+                var catch_url = /((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*/;
+                var mm = output.match(catch_url);
+                if(mm!==null) {
+                    output = "<a style=\"color:lightGray\" href=\""+mm[0]+"\" target=\"blank\">"+output+"</a>"
+                    console.log("found website");
+                }
+            }
             dispStr += "<span class=\"data-key\">" + i + "</span>: <span class=\"data-value\">" + output + "</span><br>";
         }
         if(dispStr.length===0) {
@@ -119,7 +128,13 @@ document.getElementById("update").onclick = function() {
     var prop = document.getElementById("custom_property").value;
     console.log(prop);
     if(prop.length>0) {
-        document.getElementById("property_output").innerHTML = ">> " + prop+": "+data[prop];
+        var output = data[prop];
+        try {
+            output = displayVar(output)
+        } catch (e) {}
+        document.getElementById("property_output").innerHTML = ">> " + prop+": " + output;
+    } else {
+        document.getElementById("property_output").innerHTML = "";
     }
 }
 document.getElementById("custom_property").onchange = function() {
